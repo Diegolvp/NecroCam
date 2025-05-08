@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NecroCam"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="NecroCam - Webcam" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <Frame x:Name="main" NavigationUIVisibility="Hidden">
+            
+        </Frame>
+     </StackPanel>
 </Window>
