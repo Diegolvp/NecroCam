@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using OBSWebsocketDotNet;
 using System.IO;
+using System.Windows;
 
 namespace NecroCam.Models
 {
@@ -26,7 +27,8 @@ namespace NecroCam.Models
                 {
                     FileName = obsPath,
                     WorkingDirectory = Path.GetDirectoryName(obsPath),
-                    UseShellExecute = true
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Minimized
                 };
 
                 Process.Start(startInfo);
@@ -36,12 +38,28 @@ namespace NecroCam.Models
 
         public void Connect()
         {
-            if (!_obs.IsConnected) _obs.Connect(obsUrl, obsPassword);
+            if (!_obs.IsConnected) _obs.ConnectAsync(obsUrl, obsPassword);
         }
         
         public void StartVirutalCam()
         {
-            _obs.StartVirtualCam();
+            if (_obs.IsConnected)
+            {
+                try
+                {
+                    _obs.StartVirtualCam();
+                    _obs.SendRequest("StartVirtualCam");
+                    Console.WriteLine("Câmera Virtual iniciada.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Erro ao iniciar a câmera virtual: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nao conectado");
+            }
         }
         public void StopVirtualCam()
         {

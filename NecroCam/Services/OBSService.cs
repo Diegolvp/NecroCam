@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NecroCam.Services
 {
@@ -19,12 +20,29 @@ namespace NecroCam.Services
         public async Task StartStreamingSetupAsync()
         {
             await _obsController.StartOBSAsync();
-            _obsController.Connect();
+
+            while (!_obsController.IsConnect)
+            {
+                try
+                {
+                    _obsController.Connect();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Nao conectado");
+                }
+
+                if (_obsController.IsConnect)
+                    break;
+
+                await Task.Delay(1000);
+            }
+
+            _obsController.StartVirutalCam();
 
             if (!_obsController.IsConnect)
                 throw new System.Exception("Não foi possível conectar ao OBS.");
-
-            _obsController.StartVirutalCam();
+            
         }
 
         public void StopStreaming()
