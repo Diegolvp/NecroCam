@@ -7,6 +7,7 @@ using System.Diagnostics;
 using OBSWebsocketDotNet;
 using System.IO;
 using System.Windows;
+using OBSWebsocketDotNet.Types;
 
 namespace NecroCam.Models
 {
@@ -28,7 +29,7 @@ namespace NecroCam.Models
                     FileName = obsPath,
                     WorkingDirectory = Path.GetDirectoryName(obsPath),
                     UseShellExecute = true,
-                    WindowStyle = ProcessWindowStyle.Minimized
+                    WindowStyle = ProcessWindowStyle.Hidden
                 };
 
                 Process.Start(startInfo);
@@ -61,14 +62,50 @@ namespace NecroCam.Models
                 MessageBox.Show("Nao conectado");
             }
         }
-        public void StopVirtualCam()
+        public async Task StopVirtualCam()
         {
-            _obs.StopVirtualCam();
+            if (_obs.IsConnected)
+            {
+                var status = _obs.GetVirtualCamStatus();
+
+                if (status.IsActive)
+                {
+                    _obs.StopVirtualCam();
+
+                    while (_obs.GetVirtualCamStatus().IsActive)
+                    {
+                        await Task.Delay(500);
+                    }
+                }
+            }
         }
 
         public void Disconnect()
         {
             if (_obs.IsConnected) _obs.Disconnect(); 
+        }
+
+        public void CloseOBS()
+        {
+            Process[] process = Process.GetProcessesByName("obs64");
+
+            if (process.Length == 0)
+            {
+                MessageBox.Show("OBS Studio não está em execução.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                foreach (var proc in process)
+                {
+                    proc.CloseMainWindow();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("OBS Studio Nao encontrado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

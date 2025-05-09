@@ -1,4 +1,5 @@
 ﻿using NecroCam.Models;
+using OBSWebsocketDotNet.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace NecroCam.Services
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Nao conectado");
+                    MessageBox.Show("Nao conectado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 if (_obsController.IsConnect)
@@ -37,7 +38,6 @@ namespace NecroCam.Services
 
                 await Task.Delay(1000);
             }
-
             _obsController.StartVirutalCam();
 
             if (!_obsController.IsConnect)
@@ -45,10 +45,11 @@ namespace NecroCam.Services
             
         }
 
-        public void StopStreaming()
-        {
-            _obsController.StopVirtualCam();
+        public async Task StopStreamingAsync()
+        { 
+            await _obsController.StopVirtualCam();
             _obsController.Disconnect();
+            _obsController.CloseOBS();
         }
 
         public bool IsConnected => _obsController.IsConnect;

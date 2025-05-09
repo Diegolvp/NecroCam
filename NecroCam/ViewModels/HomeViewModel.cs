@@ -9,9 +9,6 @@ public class HomeViewModel : INotifyPropertyChanged
 {
     private readonly OBSService _obsService;
 
-    public ICommand StartCommand { get; }
-    public ICommand StopCommand { get; }
-
     private string _status;
     public string Status
     {
@@ -19,28 +16,70 @@ public class HomeViewModel : INotifyPropertyChanged
         set { _status = value; OnPropertyChanged(); }
     }
 
+    private bool _isOBSRunning;
+    public bool IsOBSRunning
+    {
+        get => _isOBSRunning;
+        set
+        {
+            _isOBSRunning = value;
+            OnPropertyChanged(); 
+            OnPropertyChanged(nameof(StartStopButtonText));
+        }
+    }
+
+    private bool _isButtonEnable = true;
+    public bool IsButtonEnable
+    {
+        get => _isButtonEnable;
+        set
+        {
+            _isButtonEnable = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string StartStopButtonText => IsOBSRunning ? "Stop" : "Start";
+    public ICommand ToggleOBSCommand { get; }
+
     public HomeViewModel()
     {
         _obsService = new OBSService();
 
-        StartCommand = new RelayCommand(async () => await StartOBS());
-        
+        ToggleOBSCommand = new RelayCommand(async () => await ToggleOBSAsync());
+
         Status = "Aguardando...";
     }
 
-    private async Task StartOBS()
+    private async Task ToggleOBSAsync()
     {
-        try
+        IsButtonEnable = false;
+
+        if (!IsOBSRunning)
         {
             Status = "Iniciando OBS...";
-            await _obsService.StartStreamingSetupAsync();
-            Status = "OBS iniciado com sucesso.";
+            try
+            {
+                await _obsService.StartStreamingSetupAsync();
+                IsOBSRunning = true;
+                Status = "OBS iniciado com sucesso.";
+            }
+            catch (Exception ex)
+            {
+                Status = $"Erro: {ex.Message}";
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Status = $"Erro: {ex.Message}";
+            Status = "Parando OBS...";
+            await _obsService.StopStreamingAsync();
+            IsOBSRunning = false;
+            Status = "OBS parado.";
         }
+
+        IsButtonEnable = true;
     }
+
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string nome = null) =>
