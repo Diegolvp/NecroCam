@@ -4,10 +4,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using NecroCam.Helpers;
 using NecroCam.Services;
+using NecroCam.Models;
+using System.Windows;
 
 public class HomeViewModel : INotifyPropertyChanged
 {
     private readonly OBSService _obsService;
+    private readonly WebcamController _webcam;
 
     private string _status;
     public string Status
@@ -40,13 +43,14 @@ public class HomeViewModel : INotifyPropertyChanged
     }
 
     public string StartStopButtonText => IsOBSRunning ? "Stop" : "Start";
-    public ICommand ToggleOBSCommand { get; }
+    public ICommand ToggleStartCommand { get; }
 
     public HomeViewModel()
     {
         _obsService = new OBSService();
+        _webcam = new WebcamController();
 
-        ToggleOBSCommand = new RelayCommand(async () => await ToggleOBSAsync());
+        ToggleStartCommand = new RelayCommand(async () => await ToggleOBSAsync());
 
         Status = "Aguardando...";
     }
@@ -57,9 +61,11 @@ public class HomeViewModel : INotifyPropertyChanged
 
         if (!IsOBSRunning)
         {
-            Status = "Iniciando OBS...";
+            Status = "Iniciando OBS e Webcam...";
             try
             {
+                await StartWebcamAsync();
+                Status = "Webcam iniciado com sucesso.";
                 await _obsService.StartStreamingSetupAsync();
                 IsOBSRunning = true;
                 Status = "OBS iniciado com sucesso.";
@@ -78,6 +84,19 @@ public class HomeViewModel : INotifyPropertyChanged
         }
 
         IsButtonEnable = true;
+    }
+
+    private async Task StartWebcamAsync()
+    {
+        try
+        {
+            await _webcam.StartWebcam();
+            MessageBox.Show("Video Power Webcam Iniciada", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show($"Erro ao iniciar Webcam: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
 

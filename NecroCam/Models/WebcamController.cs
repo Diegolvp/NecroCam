@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NecroCam.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,7 +14,7 @@ namespace NecroCam.Models
     {
         private string webcamPath = @"C:\Program Files (x86)\iCam\videopower.exe";
 
-        public async Task<bool> StarWebcam()
+        public async Task<bool> StartWebcam()
         {
             if(Process.GetProcessesByName("videopower").Length == 0)
             {
@@ -25,8 +26,23 @@ namespace NecroCam.Models
                         WorkingDirectory = Path.GetDirectoryName(webcamPath),
                         UseShellExecute = true,
                     };
-                    Process.Start(startInfo);
+                    Process? proc = Process.Start(startInfo);
                     await Task.Delay(5000);
+
+                    int retries = 10;
+
+                    while(proc.MainWindowHandle == IntPtr.Zero && retries-- > 0)
+                    {
+                        await Task.Delay(500);
+                        proc.Refresh();
+                    }
+
+                    if(proc.MainWindowHandle != IntPtr.Zero)
+                    {
+                        NativeMethodsService.SetWindowPos(proc.MainWindowHandle, NativeMethodsService.HWND_BOTTOM, 0, 0, 0, 0,
+                        NativeMethodsService.SWP_NOMOVE | NativeMethodsService.SWP_NOSIZE | NativeMethodsService.SWP_NOACTIVATE);
+                    }
+
                     return true;
 
                 }catch(Exception ex)

@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel>
             <Label Content="{Binding Status}" HorizontalAlignment="Center" Margin="0 50 0 0" FontSize="20" FontWeight="Bold"/>
-            <Button Content="{Binding StartStopButtonText}" Width="200" Height="60" Margin="0 100 0 0" RenderTransformOrigin="0.5, 0.5" Command="{Binding ToggleOBSCommand}" IsEnabled="{Binding IsButtonEnable}"/>
+            <Button Content="{Binding StartStopButtonText}" Width="200" Height="60" Margin="0 100 0 0" RenderTransformOrigin="0.5, 0.5" Command="{Binding ToggleStartCommand}" IsEnabled="{Binding IsButtonEnable}"/>
         </StackPanel>
     </Grid>
 </Page>

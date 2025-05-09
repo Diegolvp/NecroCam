@@ -29,7 +29,7 @@ namespace NecroCam.Models
                     FileName = obsPath,
                     WorkingDirectory = Path.GetDirectoryName(obsPath),
                     UseShellExecute = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    WindowStyle = ProcessWindowStyle.Minimized
                 };
 
                 Process.Start(startInfo);
