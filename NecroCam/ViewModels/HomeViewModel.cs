@@ -91,7 +91,6 @@ public class HomeViewModel : INotifyPropertyChanged
         try
         {
             await _webcam.StartWebcam();
-            MessageBox.Show("Video Power Webcam Iniciada", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch(Exception ex)
         {
