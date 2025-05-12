@@ -8,6 +8,7 @@ using OBSWebsocketDotNet;
 using System.IO;
 using System.Windows;
 using OBSWebsocketDotNet.Types;
+using System.Drawing;
 
 namespace NecroCam.Models
 {

@@ -52,6 +52,7 @@ namespace NecroCam.Services
             _obsController.CloseOBS();
         }
 
+
         public bool IsConnected => _obsController.IsConnect;
     }
 }
