@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NecroCam"
         mc:Ignorable="d"
+        SizeToContent="Height"
         Title="NecroCam - Webcam" Height="600" Width="387" WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         WindowStyle="SingleBorderWindow"

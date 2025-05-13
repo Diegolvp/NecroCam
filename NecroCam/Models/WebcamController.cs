@@ -79,5 +79,25 @@ namespace NecroCam.Models
             }
 
         }
+
+        public bool GetWebcamIsRunning()
+        {
+            Process[] process = Process.GetProcessesByName("videopower");
+
+            return process.Length != 0 ? true : false;
+        }
+
+        public async Task<bool> WebcamIsRunningAsync()
+        {
+            try
+            {
+                bool isOpen = GetWebcamIsRunning();
+                return await Task.FromResult(isOpen);
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

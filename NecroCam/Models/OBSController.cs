@@ -108,5 +108,15 @@ namespace NecroCam.Models
                 MessageBox.Show("OBS Studio Nao encontrado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        public VirtualCamStatus GetVirtualCamStatus()
+        {
+            if (_obs.IsConnected)
+            {
+                return _obs.GetVirtualCamStatus();
+            }
+            return null;
+        }
+
     }
 }

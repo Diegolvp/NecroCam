@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\gear-icon.png" />
     <None Remove="Resources\monitor-icon.png" />
     <None Remove="Resources\obs-icon.png" />
     <None Remove="Resources\webcam-icon.png" />
@@ -21,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\gear-icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\monitor-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

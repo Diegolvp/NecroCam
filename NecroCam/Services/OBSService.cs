@@ -54,5 +54,30 @@ namespace NecroCam.Services
 
 
         public bool IsConnected => _obsController.IsConnect;
+
+        public async Task<bool> IsConnectedAsync()
+        {
+            try
+            {
+                return await Task.FromResult(_obsController.IsConnect);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> VCamIsActiveAsync()
+        {
+            try
+            {
+                var status = _obsController.GetVirtualCamStatus();
+                return await Task.FromResult(status?.IsActive ?? false);
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
