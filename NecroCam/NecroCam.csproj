@@ -12,6 +12,7 @@
     <None Remove="Resources\gear-icon.png" />
     <None Remove="Resources\monitor-icon.png" />
     <None Remove="Resources\obs-icon.png" />
+    <None Remove="Resources\teste-splash-screen.png" />
     <None Remove="Resources\webcam-icon.png" />
   </ItemGroup>
 
@@ -34,6 +35,12 @@
     <Resource Include="Resources\webcam-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Resources\teste-splash-screen.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </SplashScreen>
   </ItemGroup>
 
 </Project>

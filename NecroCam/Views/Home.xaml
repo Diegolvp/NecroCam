@@ -11,13 +11,13 @@
     <Page.Resources>
         <LinearGradientBrush x:Key="Gradient" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#FFFFFF" Offset="0.0"/>
-            <GradientStop Color="#1F2127" Offset="0.005"/>
+            <GradientStop Color="#1F2127" Offset="0.006"/>
             <GradientStop Color="#282930" Offset="1.0"/>
         </LinearGradientBrush>
 
         <LinearGradientBrush x:Key="LongGradient" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#FFFFFF" Offset="0.0"/>
-            <GradientStop Color="#1F2127" Offset="0.001"/>
+            <GradientStop Color="#1F2127" Offset="0.002"/>
             <GradientStop Color="#282930" Offset="1.0"/>
         </LinearGradientBrush>
 
@@ -71,7 +71,7 @@
                                 </Setter>
                             </Style>
                         </Button.Style>
-                        <Image Width="Auto" Height="Auto" Source="/Resources/gear-icon.png"/>
+                        <Image Width="Auto" Height="Auto" Source="/Resources/gear-icon.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button>
 
 
