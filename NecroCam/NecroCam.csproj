@@ -6,14 +6,20 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\necrocam.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\gear-icon.png" />
     <None Remove="Resources\monitor-icon.png" />
+    <None Remove="Resources\necrocam.ico" />
+    <None Remove="Resources\NecrocamSplashScreen.png" />
     <None Remove="Resources\obs-icon.png" />
-    <None Remove="Resources\teste-splash-screen.png" />
     <None Remove="Resources\webcam-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\necrocam.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SplashScreen Include="Resources\teste-splash-screen.png">
+    <SplashScreen Include="Resources\NecrocamSplashScreen.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </SplashScreen>
   </ItemGroup>
